@@ -14,7 +14,7 @@ module Seed
         when "demo"
           Setup.new.demo
         when "clean"
-          puts "Clean setup not yet implemented"
+          Setup.new.clean
         when "custom"
           puts "Custom setup not yet implemented"
         else
@@ -25,7 +25,7 @@ module Seed
   end
   
   class Setup
-    
+
     def demo
      appname = ask('Enter a name for your application: ')
      sitename = ask('Enter a name for your site: ')
@@ -72,7 +72,7 @@ module Seed
         a selection of pages and content
   
         2. script/setup clean
-        A clean setup with no pages or article content
+        A clean setup with an admin user & role, one page, no content
   
         3. script/setup custom
         Custom setup. You will be prompted for options

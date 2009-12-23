@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def set_locale
-    default_locale = 'en-US'
+    default_locale = 'en-us'
     request_language = request.env['HTTP_ACCEPT_LANGUAGE']
     request_language = request_language.nil? ? nil : 
       request_language[/[^,;]+/]
@@ -23,9 +23,10 @@ class ApplicationController < ActionController::Base
               request_language || default_locale
     session[:locale] = @current_locale
     begin
-      I18n.locale = @current_locale.to_s
+      I18n.locale = @current_locale.to_sym
     rescue
-      I18n.locale = default_locale.to_s
+      logger.warn "Falling back to default locale (#{default_locale})"
+      I18n.locale = default_locale.to_sym
     end
   end
   

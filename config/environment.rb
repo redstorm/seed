@@ -3,7 +3,6 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
-require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
 Rails::Initializer.run do |config|
   
@@ -18,7 +17,7 @@ Rails::Initializer.run do |config|
 
   config.action_controller.session = {
     :session_key => '_seed_session',
-    :secret      => '70974e63857c8417f13ed8547170663f3a2efce6e42ad2dc760ce6a794b75a6e8dea0e45b43dd0c14f493be4560595b15267bed26742e22c25af42b0c3d7d9af'
+    :secret      => 'ce5eae87cde88001a43bd0a4ae9aeabc3ba441f35a50d3d73a771d8efe245f028cd626f230081073d9360d0b15fdc30f167cbcd62d194437cabac056589b956d'
   }
 
   config.action_controller.session_store = :active_record_store

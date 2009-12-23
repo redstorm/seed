@@ -1,4 +1,5 @@
 class Page < ActiveRecord::Base
+  translates :title, :name, :description
   acts_as_tree :order => :position
   acts_as_list :scope => :parent
   has_many :articles, :order => :position, :dependent => :destroy
