@@ -1,4 +1,5 @@
 class Article < ActiveRecord::Base
+  translates :title, :content
   belongs_to :page
   acts_as_list :scope => :page
   has_many :images
@@ -30,6 +31,8 @@ class Article < ActiveRecord::Base
   def component_preview
     if article_type == "documents"
       "Preview not available..."
+    elsif content.blank?
+      ""
     else
       content.slice(0, 100) + "..."
     end

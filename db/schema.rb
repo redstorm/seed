@@ -9,7 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090203123705) do
+ActiveRecord::Schema.define(:version => 20091223043744) do
+
+  create_table "article_translations", :force => true do |t|
+    t.integer  "article_id"
+    t.string   "locale"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "article_translations", ["article_id"], :name => "index_article_translations_on_article_id"
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -40,6 +51,17 @@ ActiveRecord::Schema.define(:version => 20090203123705) do
     t.datetime "updated_at"
   end
 
+  create_table "component_translations", :force => true do |t|
+    t.integer  "component_id"
+    t.string   "locale"
+    t.string   "title"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "component_translations", ["component_id"], :name => "index_component_translations_on_component_id"
+
   create_table "components", :force => true do |t|
     t.string   "title"
     t.integer  "page_id"
@@ -64,6 +86,18 @@ ActiveRecord::Schema.define(:version => 20090203123705) do
     t.datetime "updated_at"
     t.integer  "article_id"
   end
+
+  create_table "event_translations", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "locale"
+    t.string   "description"
+    t.string   "location"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "event_translations", ["event_id"], :name => "index_event_translations_on_event_id"
 
   create_table "events", :force => true do |t|
     t.string   "name"

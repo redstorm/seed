@@ -1,4 +1,5 @@
 class Component < ActiveRecord::Base
+  translates :title, :text
   belongs_to :page, :counter_cache => true
   belongs_to :source, :class_name => "Page", :foreign_key => :source_page
   acts_as_list :scope => :page_id

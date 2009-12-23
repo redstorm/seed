@@ -23,13 +23,13 @@
 		</div>
 		<% end -%>
 		
-		<%= textilize(article.content.lstrip) %>
+		<%= textilize(article.content) %>
 	<% end -%>
 	
 	<% if article.article_type == "documents" %>
 		<h2><%= article.title %></h2>
 		<div class="documents">
-		  <%= textilize(article.content.lstrip) %>
+		  <%= textilize(article.content) %>
 		  <% article.documents.each do |document| %>
 		  	<h5 class="doc"><%= link_to(document.name, document.public_filename) %></h5>
 		  <% end -%>
@@ -54,7 +54,7 @@
 			</object>
 		</div>
 		<% end -%>
-		<%= textilize(article.content.lstrip) %>
+		<%= textilize(article.content) %>
 	<% end -%>
 	<% if article.article_type == "table" %>
 		<h2 class="handle"><%= article.title %></h2>

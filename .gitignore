@@ -21,7 +21,6 @@ public/plugin_assets/*
 public/*.html
 
 db/*.sqlite3
-db/schema.rb
 db/data.yml
 
 config/settings.yml

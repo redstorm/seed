@@ -66,6 +66,7 @@ module ApplicationHelper
   end
   
   def sanitized_class_name(name)
+    name ||=""
     name.downcase.gsub(" ", "-")
   end
   
