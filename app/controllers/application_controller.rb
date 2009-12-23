@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
               request_language || default_locale
     session[:locale] = @current_locale
     begin
-      I18n.locale = @current_locale
+      I18n.locale = @current_locale.to_s
     rescue
-      I18n.locale = default_locale
+      I18n.locale = default_locale.to_s
     end
   end
   
