@@ -16,8 +16,8 @@
 
 <% if editable?(@page) -%>
 	<div id="edit-link-<%= @post.id %>" style="display:none">
-		<div class="first"><%= link_to "edit", edit_post_path(@page, @post)%></div>
-		<div><%= link_to "delete", post_path(@page, @post), :confirm => 'Delete this post?', :method => :delete %></div>
+		<div class="first"><%= link_to "edit", edit_page_post_path(@page, @post)%></div>
+		<div><%= link_to "delete", page_post_path(@page, @post), :confirm => 'Delete this post?', :method => :delete %></div>
 	</div>
   <script>
   	new Tip($("post_<%= @post.id %>").down('h2'), $("edit-link-<%= @post.id %>"), {style: 'seed-edit'});

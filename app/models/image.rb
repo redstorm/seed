@@ -22,7 +22,9 @@ class Image < ActiveRecord::Base
                      :select => "height, width", 
                      :conditions => ["parent_id = ? AND thumbnail = ?", self.id, thumb])
       
-      return "#{i.width}x#{i.height}"
+      return i.nil? ?
+       "0x0" :
+       "#{i.width}x#{i.height}"
     end
   end
   

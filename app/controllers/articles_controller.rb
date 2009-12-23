@@ -65,11 +65,11 @@ class ArticlesController < ApplicationController
   
   def resource_index_page(resource)
     if resource.article_type == "post"
-      posts_path(resource.page_id) 
+      page_posts_path(resource.page_id) 
     elsif resource.article_type == "news"
-      newsitems_path(resource.page_id) 
+      page_newsitems_path(resource.page_id) 
     else
-      articles_path(resource.page_id) 
+      page_articles_path(resource.page_id) 
     end
   end
   

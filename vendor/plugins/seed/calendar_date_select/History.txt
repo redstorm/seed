@@ -1,3 +1,24 @@
+== Version 1.15.1
+ * Bugfix: iso_date fixes (Robert Brown)
+
+== Version 1.15
+ * Bugfix: don't include the :image option in the input field
+
+== Version 1.14
+ * Added support for Rails 2.3
+
+== Version 1.13
+ * Lots of code clean up!
+ * Moved test suite over to rspec
+ * CalendarDateSelect.default_options implemented.  Use CalendarDateSelect.default_options.update(...) to set the default_options for your app.
+ * calendar_date_select and calendar_date_select_tag accept an :image parameter.
+ * Backwards compatibility hook for Rails 2.1
+ * RDOC!
+ * Don't try to focus a hidden or disabled element (closes #129 - thanks Bruno)
+ * Call onchange callback when clearing the calendar (closes #137 - thanks Chewi)
+ * Fixed issue that made :db format worthless (closes #135, thanks Andreas Zecher)
+ * dramatic optimization for calendar initial-rendering (thanks Yehudab, Bompus)
+
 == Version 1.12 ==
  * Updated for compatibility with Rails 2.2
  

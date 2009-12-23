@@ -1,28 +1,27 @@
 require 'test/unit'
-require 'FileUtils'
-
-begin
-  require File.dirname(__FILE__) + '/../../../../config/boot'
-  require 'active_record'
-rescue LoadError
-  require 'rubygems'
-  require_gem 'activerecord'
-end
-
+require 'fileutils'
+require 'rubygems'
+require 'active_record'
 require 'active_record/fixtures'
-
 require File.dirname(__FILE__) + '/../lib/acts_as_indexed'
+
+# Mock out the required environment variables.
+RAILS_ENV = 'test'
+RAILS_ROOT = Dir.pwd
 
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + '/test.log')
 ActiveRecord::Base.configurations = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))
-ActiveRecord::Base.establish_connection(ENV['DB'] || 'mysql')
+ActiveRecord::Base.establish_connection(ENV['DB'] || 'sqlite3')
 
+# Load Schema
 load(File.dirname(__FILE__) + '/schema.rb')
 
-Test::Unit::TestCase.fixture_path = File.dirname(__FILE__) + '/fixtures/'
-$LOAD_PATH.unshift(Test::Unit::TestCase.fixture_path)
+# Load model.
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/fixtures/')
 
-class Test::Unit::TestCase #:nodoc:
+class ActiveSupport::TestCase #:nodoc:
+  include ActiveRecord::TestFixtures
+  self.fixture_path = File.dirname(__FILE__) + '/fixtures/'
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   
@@ -42,7 +41,7 @@ class Test::Unit::TestCase #:nodoc:
   protected
   
   def index_loc
-    File.join(File.dirname(__FILE__),'index')
+    File.join(RAILS_ROOT,'index')
   end
   
 end

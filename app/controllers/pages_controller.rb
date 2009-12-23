@@ -64,7 +64,7 @@ class PagesController < ApplicationController
   private
   
   def resources_path(page)
-    eval ("#{page.kind}_path(#{page.id})") 
+    eval ("page_#{page.kind}_path(#{page.id})") 
   end
 
 end

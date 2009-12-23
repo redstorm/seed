@@ -1,5 +1,5 @@
 <div class="span-12">
-<% form_for(@article, :url => newsitem_path(@page, @article), :html => {:class => "seed-admin tight"}) do |f| %>
+<% form_for([@page, @article], :html => {:class => "seed-admin tight"}) do |f| %>
   <%= f.error_messages %>
   <div id="fieldset">
   <div class="input-row">

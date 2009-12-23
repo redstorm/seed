@@ -1,5 +1,5 @@
 <div class="span-14">
-<% form_for(@event, :url => event_path(@page, @event), :html => {:class => "seed-admin"}) do |f| %>
+<% form_for([@page, @event], :html => {:class => "seed-admin"}) do |f| %>
   
   <%= f.error_messages %>
   <div id="fieldset">

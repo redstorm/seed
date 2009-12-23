@@ -1,5 +1,5 @@
 <div class="span-12">
-  <% form_for @component, :url => component_path(@page, @component), :html => {:class => "seed-admin tight", :id => "changer"} do |f| -%>
+  <% form_for [@page, @component], :html => {:class => "seed-admin tight", :id => "changer"} do |f| -%>
     <%= f.error_messages %>
     <div id="fieldset">
       <div class="input-row">

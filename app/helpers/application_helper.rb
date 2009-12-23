@@ -92,18 +92,18 @@ module ApplicationHelper
   # to Page attributes
   def resources_path(page)
     if page.custom_path.nil?
-      eval "#{page.kind}_path('#{page.id}-#{page.permalink}')"
+      eval "page_#{page.kind}_path('#{page.id}-#{page.permalink}')"
     else
-      eval "#{page.custom_path}_path"
+      eval "page_#{page.custom_path}_path"
     end
   end
   
   # Generate a path for component links
   def resource_path(page, resource)
     if page.kind == "articles"
-      eval("articles_path('#{page.id}-#{page.permalink}')")
+      eval("page_articles_path('#{page.id}-#{page.permalink}')")
     else
-      eval("#{page.kind.singularize}_path('#{page.id}-#{page.permalink}', #{resource})")
+      eval("page_#{page.kind.singularize}_path('#{page.id}-#{page.permalink}', #{resource})")
     end
   end
   

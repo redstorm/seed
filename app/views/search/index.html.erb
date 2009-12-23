@@ -9,7 +9,7 @@
       <div class="result-group">
         <%= content_tag(:h2, "Content (#{@grouped_results["article"].size})") %>
         <% @grouped_results["article"].each do |article| -%>
-          <h3><%= link_to highlight(article.title, params[:query]), articles_path(article.page_id) %></h3>
+          <h3><%= link_to highlight(article.title, params[:query]), page_articles_path(article.page_id) %></h3>
           <p><%= truncate_for_search(article.content, params[:query]) %></p>
         <% end -%>
       </div>
@@ -19,7 +19,7 @@
       <div class="result-group">
         <%= content_tag(:h2, "Blog Posts (#{@grouped_results["post"].size})") %>
         <% @grouped_results["post"].each do |post| -%>
-          <h3><%= link_to post.title, post_path(post.page_id, post) %></h3>
+          <h3><%= link_to post.title, page_post_path(post.page_id, post) %></h3>
           <p><%= truncate_for_search(post.content, params[:query]) %></p>
         <% end -%>
       </div>
@@ -29,7 +29,7 @@
       <div class="result-group">
         <%= content_tag(:h2, "News Items (#{@grouped_results["news"].size})") %>
         <% @grouped_results["news"].each do |newsitem| -%>
-          <h3><%= link_to newsitem.title, newsitem_path(newsitem.page_id, newsitem) %></h3>
+          <h3><%= link_to newsitem.title, page_newsitem_path(newsitem.page_id, newsitem) %></h3>
           <p><%= truncate_for_search(newsitem.content, params[:query]) %></p>
         <% end -%>
       </div>

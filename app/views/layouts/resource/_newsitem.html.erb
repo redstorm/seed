@@ -2,12 +2,12 @@
   
   <% if editable?(@page) -%>
 		<div id="edit-link-<%= newsitem.id %>" style="display:none">
-			<div class="first"><%= link_to "edit", edit_newsitem_path(@page, newsitem)%></div>
-			<div><%= link_to "delete", newsitem_path(@page, newsitem), :confirm => 'Delete this newsitem?', :method => :delete %></div>
+			<div class="first"><%= link_to "edit", edit_page_newsitem_path(@page, newsitem)%></div>
+			<div><%= link_to "delete", page_newsitem_path(@page, newsitem), :confirm => 'Delete this newsitem?', :method => :delete %></div>
 		</div>
 	<% end -%>
 	
-	<h2><%= link_to newsitem.title, newsitem_path(@page, newsitem) %></h2>
+	<h2><%= link_to newsitem.title, page_newsitem_path(@page, newsitem) %></h2>
 	<h4><%= simple_date(newsitem.created_at) %></h4>
 	
 	<% cache "article-#{newsitem.id}-images" do %>
@@ -20,7 +20,7 @@
   </div>
   <% end -%>
 	
-	<%= textilize(truncate(newsitem.content, 1000, "... #{link_to '[read more]', newsitem_path(@page, newsitem)}")) %>
+	<%= textilize(truncate(newsitem.content, 1000, "... #{link_to '[read more]', page_newsitem_path(@page, newsitem)}")) %>
 </div>
 <% if editable?(@page) -%>
   <script>

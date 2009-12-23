@@ -2,8 +2,8 @@
 
 	  <% if editable?(@page) -%>
     	<div id="edit-component-<%= component.id %>" style="display:none">
-    		<div class="first"><%= link_to "edit", edit_component_path(@page, component)%></div>
-    		<div><%= link_to "delete", component_path(@page, component), :confirm => 'Delete this component?', :method => :delete %> </div>
+    		<div class="first"><%= link_to "edit", edit_page_component_path(@page, component)%></div>
+    		<div><%= link_to "delete", page_component_path(@page, component), :confirm => 'Delete this component?', :method => :delete %> </div>
     		<!--[if !IE]>-->  
     		<div class="handle"><a>re-order</a></div>
     		<!--<![endif]-->

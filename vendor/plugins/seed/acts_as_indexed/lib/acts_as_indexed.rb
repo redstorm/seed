@@ -5,8 +5,8 @@
 
 require 'active_record'
 
-require 'search_index'
-require 'search_atom'
+require File.dirname(__FILE__) + '/search_index'
+require File.dirname(__FILE__) + '/search_atom'
 
 module Foo #:nodoc:
   module Acts #:nodoc:
@@ -29,6 +29,10 @@ module Foo #:nodoc:
         # min_word_size:: Sets the minimum length for a word in a query. Words
         #                 shorter than this value are ignored in searches
         #                 unless preceded by the '+' operator. Default is 3.
+        # index_file:: Sets the location for the index. By default this is 
+        #              RAILS_ROOT/index. Specify as an array. Heroku, for
+        #              example would use RAILS_ROOT/tmp/index, which would be
+        #              set as [RAILS_ROOT,'tmp','index]
 
         def acts_as_indexed(options = {})
           class_eval do
@@ -44,26 +48,18 @@ module Foo #:nodoc:
 
           # default config
           self.aai_config = { 
-            :index_file => [RAILS_ROOT,'index',RAILS_ENV,name],
+            :index_file => [RAILS_ROOT,'index'],
             :index_file_depth => 3,
             :min_word_size => 3,
             :fields => []
           }
 
-          # set fields
-          aai_config[:fields] = options[:fields] if options.include?(:fields)
+          aai_config[:index_file] += [RAILS_ENV,name]
 
-          # set minimum word size if available.
-          aai_config[:min_word_size] = options[:min_word_size] if options.include?(:min_word_size)
+          aai_config.merge!(options)
 
-          # set index file depth if available.
-          # Min size of 1.
-          aai_config[:index_file_depth] = options[:index_file_depth].to_i if options.include?(:index_file_depth) && options[:index_file_depth].to_i > 0
-
-          # Set file location for plugin testing.
-          # TODO: Find more portable (ruby) way of doing the up-one-level.
-          aai_config[:index_file] = [File.dirname(__FILE__),'../test/index',RAILS_ENV,name] if options.include?(:self_test)
-
+          raise(ArgumentError, 'no fields specified') unless aai_config.include?(:fields)
+          raise(ArgumentError, 'index_file_depth cannot be less than one (1)') if aai_config[:index_file_depth].to_i < 1
         end
 
         # Adds the passed +record+ to the index. Index is built if it does not already exist. Clears the query cache.
@@ -112,7 +108,8 @@ module Foo #:nodoc:
         # multiple identical searches.
         #
         # ====find_options
-        # A hash passed on to active_record's find when retrieving the data from db, useful for pagination.
+        # Same as ActiveRecord#find options hash. An :order key will override
+        # the relevance ranking 
         #
         # ====options
         # ids_only:: Method returns an array of integer IDs when set to true.
@@ -130,12 +127,12 @@ module Foo #:nodoc:
           else
             logger.debug('Query held in cache.')
           end
-          return @query_cache[query].sort{|a,b| b <=> a }.collect{|a| a.first} if (options.has_key?(:ids_only) && options[:ids_only]) || @query_cache[query].empty?
+          return @query_cache[query].sort.reverse.map(&:first) if (options.has_key?(:ids_only) && options[:ids_only]) || @query_cache[query].empty?
           
           # slice up the results by offset and limit
           offset = find_options[:offset] || 0
           limit = find_options.include?(:limit) ? find_options[:limit] : @query_cache[query].size
-          part_query = @query_cache[query].sort{|a,b| b <=> a }.slice(offset,limit).collect{|a| a.first}
+          part_query = @query_cache[query].sort.reverse.slice(offset,limit).map(&:first)
           
           # Set these to nil as we are dealing with the pagination by setting
           # exactly what records we want.
@@ -147,13 +144,17 @@ module Foo #:nodoc:
             # on either missing records (out-of-sync) or an empty results array.
             records = find(:all, :conditions => [ "#{class_name.tableize}.id IN (?)", part_query])
             
-            # Results come back in random order from SQL, so order again.
-            ranked_records = {}
-            records.each do |r|
-              ranked_records[r] = @query_cache[query][r.id]
-            end
-
-            ranked_records.to_a.sort{|a,b| b.last <=> a.last }.collect{|a| a.first}
+            if find_options.include?(:order)
+             records # Just return the records without ranking them.
+           else
+             # Results come back in random order from SQL, so order again.
+             ranked_records = {}
+             records.each do |r|
+               ranked_records[r] = @query_cache[query][r.id]
+             end
+          
+             ranked_records.to_a.sort_by{|a| a.last }.reverse.map(&:first)
+           end
           end
           
         end
